@@ -17,13 +17,11 @@ export class PurchaseDao implements IPurchaseDao {
     @NameCallerArgsReturnLogDaosInfoLevel('Purchase')
     public async getByUserId(userId: v4String): Promise<IPurchase[]> {
         return this.purchaseRepository.findAll({
-            include: [{
-                model: this.userRepository,
-                as: 'followers',
-                where: {
-                    userId: userId.toString(),
-                },
+            where: {
+                userId: userId.toString(),
             },
+            include: [
+                this.userRepository,
                 this.productRepository,
             ],
         });

@@ -33,9 +33,7 @@ server.setConfig((appConfig: any) => {
     ));
     const viewsDir = path.join(__dirname, 'views');
     appConfig.set('views', viewsDir);
-    const staticDir = path.join(__dirname, 'public');
-    appConfig.use(express.static(staticDir));
-    appConfig.get('*', (req: Request, res: Response) => {
+    appConfig.get('/', (req: Request, res: Response) => {
         return res.sendFile('index.html', {root: viewsDir});
     });
 });
