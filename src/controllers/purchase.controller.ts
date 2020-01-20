@@ -6,13 +6,13 @@ import {
 import {controller, httpGet, interfaces, queryParam} from 'inversify-express-utils';
 import {v4String} from 'uuid/interfaces';
 import * as express from 'express';
-import {BAD_REQUEST, OK} from 'http-status-codes';
+import {BAD_REQUEST, NOT_FOUND, OK} from 'http-status-codes';
 import {globalInfoLogger, NameCallerArgsReturnLogControllersInfoLevel} from '@shared';
 import {IUserService, UserService} from '../services/user.service';
+import {IPurchaseService, PurchaseService} from '../services/purchase.service';
 
-interface IUserController {
-    getAll: (
-        id: v4String,
+interface IPurchaseController {
+    getByUserId: (
         request: express.Request,
         response: express.Response,
         next: express.NextFunction,
@@ -20,46 +20,47 @@ interface IUserController {
 }
 
 @ApiPath({
-    path: '/users',
-    name: 'User',
+    path: '/purchases',
+    name: 'Purchase',
 })
 @controller(
-    '/users',
+    '/purchases',
 )
-export class UserController implements interfaces.Controller, IUserController {
+export class PurchaseController implements interfaces.Controller, IPurchaseController {
 
-    private userService: IUserService = new UserService();
+    private purchaseService: IPurchaseService = new PurchaseService();
 
-    public static TARGET_NAME = 'userController';
+    public static TARGET_NAME = 'purchaseController';
 
-    @NameCallerArgsReturnLogControllersInfoLevel('User')
+    @NameCallerArgsReturnLogControllersInfoLevel('Purchase')
     @ApiOperationGet({
-        description: 'Get users',
-        summary: 'Get all users',
+        description: 'Get purchases by user id',
+        summary: 'Get purchases of an existing user',
+        path: '/{id}',
         responses: {
             200: {
                 description: 'Success',
                 type: SwaggerDefinitionConstant.Response.Type.ARRAY,
-                model: 'User',
+                model: 'Purchase',
             },
             400: {
                 description: 'Bad request',
             },
         },
     })
-    @httpGet('')
-    public async getAll(
-        @queryParam('id') id: v4String,
+    @httpGet('/:id')
+    public async getByUserId(
         request: express.Request,
         response: express.Response,
         next: express.NextFunction,
     ): Promise<express.Response> {
+        const {id} = request.params;
         try {
-            const users = await this.userService.getAll();
-            return response.status(OK).json({users});
+            const purchases = await this.purchaseService.getByUserId(id as unknown as v4String);
+            return response.status(OK).json({purchases});
         } catch (err) {
             globalInfoLogger.error(err.message, err);
-            return response.status(BAD_REQUEST).json({
+            return response.status(NOT_FOUND).json({
                 error: err.message,
             });
         }

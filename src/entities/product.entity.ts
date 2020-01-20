@@ -12,23 +12,23 @@ import {ApiModel, ApiModelProperty} from 'swagger-express-ts';
 import {Path} from 'typescript-rest';
 import {IPurchase, Purchase} from './purchase.entity';
 
-export interface IUser {
+export interface IProduct {
     id: v4String;
-    firstName: string;
-    lastName: string;
+    name: string;
+    price: number;
     purchases: IPurchase[];
 }
 
 @ApiModel({
-    description: 'User Model',
-    name: 'User',
+    description: 'Product Model',
+    name: 'Product',
 })
-@Path('User')
-@Table({tableName: 'users', paranoid: true})
-export class User extends Model<User> implements IUser {
+@Path('Product')
+@Table({tableName: 'products', paranoid: true})
+export class Product extends Model<Product> implements IProduct {
 
     @ApiModelProperty({
-        description: 'Id of a User',
+        description: 'Id of a product',
         required: true,
         type: 'v4String',
         example: ['75442486-0878-440c-9db1-a7006c25a39f'],
@@ -39,23 +39,24 @@ export class User extends Model<User> implements IUser {
     public id!: v4String;
 
     @ApiModelProperty({
-        description: 'Firstname of the user',
+        description: 'Name of the product',
         required: true,
-        example: ['Ronan', 'Alexis', 'Louka', 'Rémi'],
+        example: ['Lait', 'Oeuf', 'Saucisson', 'Captain'],
     })
     @AllowNull(false)
     @Column(DataTypes.STRING)
-    public firstName!: string;
+    public name!: string;
 
     @ApiModelProperty({
-        description: 'Lastname of the user',
+        description: 'Price of the product',
         required: true,
-        example: ['Laplaud', 'Leroy', 'Houlgatte--Bustamante', 'Castel'],
+        example: [0.97, 3, 15.2],
     })
     @AllowNull(false)
-    @Column(DataTypes.STRING)
-    public lastName!: string;
+    @Column(DataTypes.FLOAT)
+    public price!: number;
 
-    @HasMany(() => Purchase, 'userId')
+    @HasMany(() => Purchase, 'productId')
     public purchases!: IPurchase[];
+
 }

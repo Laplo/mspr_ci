@@ -1,5 +1,5 @@
 import {Sequelize} from 'sequelize-typescript';
-import {User} from '@entities';
+import {Product, Purchase, User} from '@entities';
 
 export class SequelizeConnection {
 
@@ -15,7 +15,7 @@ export class SequelizeConnection {
                 define: {
                     schema: process.env.SCHEMA_NAME,
                 },
-                models: [User],
+                models: [User, Purchase, Product],
             });
     }
 
@@ -26,5 +26,4 @@ export class SequelizeConnection {
 
         return SequelizeConnection.con;
     }
-
 }
