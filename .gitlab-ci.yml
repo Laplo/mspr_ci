@@ -1,0 +1,74 @@
+image: docker:19.03.1
+
+services:
+  - docker:19.03.1-dind
+
+variables:
+  # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: "/certs"
+
+stages:
+  - build
+  - test
+  - dockerbuild
+  - sonardevelop
+  - sonar
+
+cache:
+  paths:
+    - node_modules/
+
+build:
+  stage: build
+  image: node:latest
+  script: npm i && npm run build
+
+test:
+  stage: test
+  image: node:latest
+  script:
+    - npm run testgit
+
+dockerbuild:
+  stage: dockerbuild
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --tag $CI_REGISTRY_IMAGE:latest .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:latest
+
+sonar-dev:
+  stage: sonardevelop
+  image: node:latest
+  script:
+    - export SONAR_SCANNER_VERSION=4.0.0.1744
+    - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+    - rm -rf $SONAR_SCANNER_HOME
+    - mkdir -p $SONAR_SCANNER_HOME
+    - curl -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
+    - unzip $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+    - rm $HOME/.sonar/sonar-scanner.zip
+    - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+    - export SONAR_SCANNER_OPTS="-server"
+    - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT -Dsonar.branch.name=develop -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_LOGIN
+  only:
+    - /develop/
+
+sonar:
+  stage: sonar
+  image: node:latest
+  script:
+    - export SONAR_SCANNER_VERSION=4.0.0.1744
+    - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+    - rm -rf $SONAR_SCANNER_HOME
+    - mkdir -p $SONAR_SCANNER_HOME
+    - curl -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
+    - unzip $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+    - rm $HOME/.sonar/sonar-scanner.zip
+    - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+    - export SONAR_SCANNER_OPTS="-server"
+    - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_LOGIN
+  only:
+    - /master/
