@@ -12,7 +12,6 @@ stages:
   - build
   - test
   - dockerbuild
-  - sonardevelop
   - sonar
 
 cache:
@@ -21,12 +20,12 @@ cache:
 
 build:
   stage: build
-  image: node:latest
+  image: node:12.14.1-alpine3.11
   script: npm i && npm run build
 
 test:
   stage: test
-  image: node:latest
+  image: node:12.14.1-alpine3.11
   script:
     - npm run testgit
 
@@ -41,36 +40,16 @@ dockerbuild:
   only:
     - /master/
 
-sonar-dev:
-  stage: sonardevelop
-  image: node:latest
-  script:
-    - export SONAR_SCANNER_VERSION=4.0.0.1744
-    - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
-    - rm -rf $SONAR_SCANNER_HOME
-    - mkdir -p $SONAR_SCANNER_HOME
-    - curl -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
-    - unzip $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
-    - rm $HOME/.sonar/sonar-scanner.zip
-    - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
-    - export SONAR_SCANNER_OPTS="-server"
-    - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT -Dsonar.branch.name=develop -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_LOGIN
-  only:
-    - /develop/
-
 sonar:
   stage: sonar
-  image: node:latest
-  script:
-    - export SONAR_SCANNER_VERSION=4.0.0.1744
-    - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
-    - rm -rf $SONAR_SCANNER_HOME
-    - mkdir -p $SONAR_SCANNER_HOME
-    - curl -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
-    - unzip $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
-    - rm $HOME/.sonar/sonar-scanner.zip
-    - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
-    - export SONAR_SCANNER_OPTS="-server"
-    - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_LOGIN
+  image:
+    name: sonarsource/sonar-scanner-cli:4.2
+    entrypoint: [""]
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script: sonar-scanner
   only:
+    - /develop/
     - /master/

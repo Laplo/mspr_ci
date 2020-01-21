@@ -13,6 +13,35 @@
     "testgit": "ts-node -r tsconfig-paths/register ./spec/start.ts",
     "sonar-scanner": "node_modules/sonar-scanner/bin/sonar-scanner"
   },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "precise-commit"
+    }
+  },
+  "hooks": {
+    "pre-commit": [
+      {
+        "message": "You’ve got leftover conflict markers",
+        "regex": "/^[<>|=]{4,}/m"
+      },
+      {
+        "filter": "\\.js$",
+        "message": "You’ve got leftover `console.log`",
+        "regex": "console\\.log"
+      },
+      {
+        "message": "You have unfinished devs",
+        "nonBlocking": "true",
+        "regex": "(?:FIXME|TODO)"
+      }
+    ]
+  },
   "_moduleAliases": {
     "@daos": "dist/daos",
     "@entities": "dist/entities",
@@ -68,6 +97,7 @@
     "@types/swagger-ui-express": "^4.1.1",
     "find": "^0.3.0",
     "fs-extra": "^8.1.0",
+    "husky": "^4.0.10",
     "jasmine": "^3.5.0",
     "jsonfile": "^5.0.0",
     "nodemon": "^2.0.2",
