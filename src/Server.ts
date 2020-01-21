@@ -7,13 +7,17 @@ import container from './shared/Container';
 import * as swagger from 'swagger-express-ts';
 import * as bodyParser from 'body-parser';
 import {globalInfoLogger} from '@shared';
-import * as path from 'path';
-import { Request, Response } from 'express';
+import cors from 'cors';
 
 const server = new InversifyExpressServer(container);
 server.setConfig((appConfig: any) => {
     appConfig.use( bodyParser.json() );
 
+    const allowedOrigins = ['http://localhost:3000'];
+    appConfig.use(cors({
+        origin: allowedOrigins,
+        credentials: true,
+    }));
     appConfig.use(logger('dev'));
     appConfig.use(express.json());
     appConfig.use(express.urlencoded({extended: true}));
@@ -31,11 +35,6 @@ server.setConfig((appConfig: any) => {
             path: '/api-docs/highlander/swagger.json',
         },
     ));
-    const viewsDir = path.join(__dirname, 'views');
-    appConfig.set('views', viewsDir);
-    appConfig.get('/', (req: Request, res: Response) => {
-        return res.sendFile('index.html', {root: viewsDir});
-    });
 });
 
 server.setErrorConfig((appErr: any) => {

@@ -21,7 +21,7 @@ describe('Purchases Routes', () => {
             agent.get(baseUrl + v4())
                 .end((err: Error, res: Response) => {
                     pErr(err);
-                    expect(res.status).toBe(OK);
+                    expect(res.status).toBe(NOT_FOUND);
                     done();
                 });
         });
