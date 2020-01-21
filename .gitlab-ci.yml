@@ -52,7 +52,7 @@ sonar-dev:
     - rm $HOME/.sonar/sonar-scanner.zip
     - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
     - export SONAR_SCANNER_OPTS="-server"
-    - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT -Dsonar.branch.name=develop -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_LOGIN
+    - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_LOGIN
   only:
     - /develop/
 
