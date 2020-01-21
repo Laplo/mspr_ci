@@ -7,8 +7,6 @@ import container from './shared/Container';
 import * as swagger from 'swagger-express-ts';
 import * as bodyParser from 'body-parser';
 import {globalInfoLogger} from '@shared';
-import * as path from 'path';
-import { Request, Response } from 'express';
 
 const server = new InversifyExpressServer(container);
 server.setConfig((appConfig: any) => {
@@ -31,11 +29,6 @@ server.setConfig((appConfig: any) => {
             path: '/api-docs/highlander/swagger.json',
         },
     ));
-    const viewsDir = path.join(__dirname, 'views');
-    appConfig.set('views', viewsDir);
-    appConfig.get('/', (req: Request, res: Response) => {
-        return res.sendFile('index.html', {root: viewsDir});
-    });
 });
 
 server.setErrorConfig((appErr: any) => {
