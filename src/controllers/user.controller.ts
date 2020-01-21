@@ -6,13 +6,17 @@ import {
 import {controller, httpGet, interfaces, queryParam} from 'inversify-express-utils';
 import {v4String} from 'uuid/interfaces';
 import * as express from 'express';
-import {BAD_REQUEST, OK} from 'http-status-codes';
+import {BAD_REQUEST, NOT_FOUND, OK} from 'http-status-codes';
 import {globalInfoLogger, NameCallerArgsReturnLogControllersInfoLevel} from '@shared';
 import {IUserService, UserService} from '../services/user.service';
 
 interface IUserController {
     getAll: (
-        id: v4String,
+        request: express.Request,
+        response: express.Response,
+        next: express.NextFunction,
+    ) => Promise<express.Response>;
+    getById: (
         request: express.Request,
         response: express.Response,
         next: express.NextFunction,
@@ -49,7 +53,6 @@ export class UserController implements interfaces.Controller, IUserController {
     })
     @httpGet('')
     public async getAll(
-        @queryParam('id') id: v4String,
         request: express.Request,
         response: express.Response,
         next: express.NextFunction,
@@ -60,6 +63,43 @@ export class UserController implements interfaces.Controller, IUserController {
         } catch (err) {
             globalInfoLogger.error(err.message, err);
             return response.status(BAD_REQUEST).json({
+                error: err.message,
+            });
+        }
+    }
+
+    @NameCallerArgsReturnLogControllersInfoLevel('User')
+    @ApiOperationGet({
+        description: 'Get user by his id',
+        summary: 'Get details of a user specifying his id',
+        path: '/{id}',
+        responses: {
+            200: {
+                description: 'Success',
+                model: 'User',
+            },
+            404: {
+                description: 'Not found',
+            },
+        },
+    })
+    @httpGet('/:id')
+    public async getById(
+        request: express.Request,
+        response: express.Response,
+        next: express.NextFunction,
+    ): Promise<express.Response> {
+        try {
+            const user = await this.userService.getById(request.params.id as unknown as v4String);
+            if (user === null) {
+                return response.status(NOT_FOUND).json({
+                    error: 'User not found',
+                });
+            }
+            return response.status(OK).json({user});
+        } catch (err) {
+            globalInfoLogger.error(err.message, err);
+            return response.status(NOT_FOUND).json({
                 error: err.message,
             });
         }

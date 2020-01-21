@@ -47,7 +47,7 @@ export class PurchaseController implements interfaces.Controller, IPurchaseContr
             },
         },
     })
-    @httpGet('/:id')
+    @httpGet('/user/:id')
     public async getByUserId(
         request: express.Request,
         response: express.Response,
