@@ -15,9 +15,27 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commit running",
-      "pre-push": "npm test"
+      "commit-msg": "...",
+      "pre-commit": "git-precommit-checks && precise-commit"
     }
+  },
+  "hooks": {
+    "pre-commit": [
+      {
+        "message": "You have leftover conflict markers",
+        "regex": "/^[<>|=]{4,}/m"
+      },
+      {
+        "filter": "\\.js$",
+        "message": "You have leftover `console.log`",
+        "regex": "console\\.log"
+      },
+      {
+        "message": "You have unfinished devs",
+        "nonBlocking": "true",
+        "regex": "(?:FIXME|TODO"
+      }
+    ]
   },
   "_moduleAliases": {
     "@daos": "dist/daos",
