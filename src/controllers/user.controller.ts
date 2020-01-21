@@ -44,7 +44,7 @@ export class UserController implements interfaces.Controller, IUserController {
             200: {
                 description: 'Success',
                 type: SwaggerDefinitionConstant.Response.Type.ARRAY,
-                model: 'User',
+                model: 'UserDTO',
             },
             400: {
                 description: 'Bad request',
@@ -76,7 +76,7 @@ export class UserController implements interfaces.Controller, IUserController {
         responses: {
             200: {
                 description: 'Success',
-                model: 'User',
+                model: 'UserDTO',
             },
             404: {
                 description: 'Not found',
