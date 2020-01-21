@@ -76,7 +76,7 @@ export class UserController implements interfaces.Controller, IUserController {
         responses: {
             200: {
                 description: 'Success',
-                model: 'User',
+                model: 'UserDTO',
             },
             404: {
                 description: 'Not found',
