@@ -8,7 +8,6 @@ import {v4String} from 'uuid/interfaces';
 import * as express from 'express';
 import {BAD_REQUEST, NOT_FOUND, OK} from 'http-status-codes';
 import {globalInfoLogger, NameCallerArgsReturnLogControllersInfoLevel} from '@shared';
-import {IUserService, UserService} from '../services/user.service';
 import {IPurchaseService, PurchaseService} from '../services/purchase.service';
 
 interface IPurchaseController {
@@ -41,7 +40,7 @@ export class PurchaseController implements interfaces.Controller, IPurchaseContr
             200: {
                 description: 'Success',
                 type: SwaggerDefinitionConstant.Response.Type.ARRAY,
-                model: 'Purchase',
+                model: 'PurchaseDTO',
             },
             400: {
                 description: 'Bad request',

@@ -40,7 +40,7 @@ export class UserController implements interfaces.Controller, IUserController {
             200: {
                 description: 'Success',
                 type: SwaggerDefinitionConstant.Response.Type.ARRAY,
-                model: 'User',
+                model: 'UserDTO',
             },
             400: {
                 description: 'Bad request',
