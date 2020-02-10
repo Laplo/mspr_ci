@@ -49,7 +49,8 @@ deploy:
   image: hublo/kubectl:latest
   script:
     - echo -n $KUBE_CONFIG | base64 -d > ./config
-    - kubectl set image deployment/highlanderback $CONTAINER_NAME=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --kubeconfig ./config --namespace msprci-develop
+    - kubectl set image deployment/highlanderback $CONTAINER_NAME=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --kubeconfig ./config --namespace $CI_BUILD_REF_NAME
   only:
     - develop
+    - master
 
