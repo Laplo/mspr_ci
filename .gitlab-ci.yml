@@ -9,12 +9,13 @@ variables:
   DOCKER_TLS_CERTDIR: "/certs"
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
   GIT_DEPTH: "0"
+  KUBE_NAMESPACE: "mspr-ci${CI_BUILD_REF_NAME}"
 
 stages:
   - build
   - test
   - dockerbuild
-  - sonar
+  - deploy
 
 cache:
   paths:
@@ -40,18 +41,17 @@ dockerbuild:
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     - docker push $CI_REGISTRY_IMAGE:latest
   only:
-    - /master/
+    - master
+    - develop
+    - /release/
 
-sonar:
-  stage: sonar
-  image:
-    name: sonarsource/sonar-scanner-cli:4.2
-    entrypoint: [""]
-  cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
-  script: sonar-scanner
+deploy:
+  stage: deploy
+  image: hublo/kubectl:latest
+  script:
+    - echo -n $KUBE_CONFIG | base64 -d > ./config
+    - kubectl set image deployment/highlanderback $CONTAINER_NAME=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --kubeconfig ./config --namespace $KUBE_NAMESPACE
   only:
-    - /develop/
-    - /master/
+    - develop
+    - master
+
