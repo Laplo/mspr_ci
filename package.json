@@ -25,7 +25,8 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "precise-commit"
+      "pre-commit": "git-branch-is feature/githook-doc-build && npm run doc-build",
+      "pre-push": "git-branch-is feature/githook-doc-build && npm run doc-build"
     }
   },
   "hooks": {
@@ -44,8 +45,7 @@
         "nonBlocking": "true",
         "regex": "(?:FIXME|TODO)"
       }
-    ],
-    "pre-push": "git-branch-is feature/githook-doc-build && npm run doc-build"
+    ]
   },
   "_moduleAliases": {
     "@daos": "dist/daos",
