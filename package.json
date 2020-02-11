@@ -25,8 +25,8 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "git-branch-is feature/githook-doc-build && npm run doc-build",
-      "pre-push": "git-branch-is feature/githook-doc-build && npm run doc-build"
+      "pre-commit": "precise-commit",
+      "pre-push": "git-branch-is master && npm run build-doc"
     }
   },
   "hooks": {
@@ -75,7 +75,7 @@
     "express": "4.17.1",
     "express-session": "1.17.0",
     "form-data": "3.0.0",
-    "git-branch-is": "3.1.0",
+    "git-branch-is": "^3.1.0",
     "global": "4.4.0",
     "helmet": "3.21.2",
     "http-status-codes": "1.4.0",
