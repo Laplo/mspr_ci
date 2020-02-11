@@ -12,11 +12,13 @@ import {ApiModel, ApiModelProperty} from 'swagger-express-ts';
 import {Path} from 'typescript-rest';
 import {IPurchase, Purchase} from './purchase.entity';
 
+let IProduct = 1;
 /**
  * Interface for classes that represent a product
  *
  * @interface
  */
+IProduct = 1;
 export interface IProduct {
     id: v4String;
     name: string;
@@ -26,8 +28,10 @@ export interface IProduct {
 
 /**
  * Creates a new Product
+ * @classdesc Database products
  *
  * @class
+ * @public
  * @implements {IProduct}
  */
 @ApiModel({

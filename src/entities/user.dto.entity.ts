@@ -6,6 +6,7 @@ import {IUser} from './user.entity';
 
 /**
  * Creates a new UserDTO
+ * @classdesc Dto purchase
  *
  * @class
  * @implements {IUser}

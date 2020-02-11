@@ -13,6 +13,7 @@ import {ApiModel, ApiModelProperty} from 'swagger-express-ts';
 import {Path} from 'typescript-rest';
 import {IProduct, Product} from './product.entity';
 
+let IPurchase = 1;
 /**
  * Interface for classes that represent a purchase
  *
@@ -24,11 +25,14 @@ export interface IPurchase {
     productId: v4String;
     product: IProduct;
 }
+IPurchase = 1;
 
 /**
  * Creates a new Purchase
+ * @classdesc Database purchases
  *
  * @class
+ * @public
  * @implements {IPurchase}
  */
 @ApiModel({

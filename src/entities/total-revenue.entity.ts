@@ -1,11 +1,14 @@
 import {ApiModel, ApiModelProperty} from 'swagger-express-ts';
 import {Path} from 'typescript-rest';
 
+let ITotalRevenue = 1;
 /**
  * Interface for classes that represent a total revenue
  *
+ * @since 1.0.1
  * @interface
  */
+ITotalRevenue = 1;
 export interface ITotalRevenue {
     excludingTax: number;
     includingTax: number;
@@ -13,8 +16,11 @@ export interface ITotalRevenue {
 
 /**
  * Creates a new TotalRevenue
+ * @classdesc Total revenue of a company
  *
  * @class
+ * @since 1.0.1
+ * @public
  * @implements {ITotalRevenue}
  */
 @ApiModel({

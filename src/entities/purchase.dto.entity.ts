@@ -7,6 +7,7 @@ import {IPurchase} from './purchase.entity';
 
 /**
  * Creates a new PurchaseDTO
+ * @classdesc Dto purchase
  *
  * @class
  * @implements {IPurchase}
