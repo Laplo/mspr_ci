@@ -4,3 +4,4 @@ tslint.json
 /.idea
 /dist
 /.scannerwork
+/docs
