@@ -26,9 +26,9 @@
     "unreleased": true,
     "commitLimit": false,
     "includeBranch": [
-      "release-1.0.0",
-      "release-2.0.0",
-      "release-3.0.0"
+      "master",
+      "develop",
+      "/^release-.*/"
     ]
   },
   "husky": {
