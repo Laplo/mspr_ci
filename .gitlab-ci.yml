@@ -1,8 +1,3 @@
-image: docker:19.03.1
-
-services:
-  - docker:19.03.1-dind
-
 variables:
   # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
   DOCKER_HOST: tcp://docker:2376
@@ -35,6 +30,9 @@ test:
     - npm run testgit
 
 dockerbuild:
+  image: docker:19.03.1
+  services:
+    - docker:19.03.1-dind
   stage: dockerbuild
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -80,6 +78,15 @@ sonar:
     - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_LOGIN
   only:
     - /master/
+
+deployrel:
+  stage: deploy
+  image: hublo/kubectl:latest
+  script:
+    - echo -n $KUBE_CONFIG | base64 -d > ./config
+    - kubectl set image deployment/highlanderback $CONTAINER_NAME=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --kubeconfig ./config --namespace msprci-release
+  only:
+    - /^release-.*/
 
 deploy:
   stage: deploy
