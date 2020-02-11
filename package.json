@@ -14,7 +14,7 @@
     "sonar-scanner": "node_modules/sonar-scanner/bin/sonar-scanner",
     "changelog-init": "conventional-changelog -i CHANGELOG.md -s -r 0",
     "changelog": "conventional-changelog -i CHANGELOG.md -s",
-    "changelog-git": "npm run changelog && git add CHANGELOG.md && git commit -m 'docs(changelog): updated' && git push origin develop"
+    "changelog-git": "npm run changelog && git add CHANGELOG.md && git commit -m 'docs(changelog): updated' && git push origin master"
   },
   "commitlint": {
     "extends": [
@@ -59,6 +59,8 @@
     "@types/uuid": "^3.4.6",
     "@types/validator": "^12.0.1",
     "changelog": "^1.4.2",
+    "conventional-changelog": "^3.1.18",
+    "conventional-changelog-cli": "^2.0.31",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "cross-env": "^6.0.3",
