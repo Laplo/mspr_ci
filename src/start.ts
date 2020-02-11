@@ -1,4 +1,4 @@
-import app from '@server';
+import app from './app';
 import { globalInfoLogger } from '@shared';
 import { SequelizeConnection } from '@shared';
 
