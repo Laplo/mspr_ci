@@ -13,7 +13,6 @@ variables:
 
 stages:
   - build
-  - buildjsdoc
   - test
   - dockerbuild
   - sonardev
@@ -28,11 +27,6 @@ build:
   stage: build
   image: node:12.14.1-alpine3.11
   script: npm i && npm run build
-
-buildjsdoc:
-  stage: buildjsdoc
-  image: node:12.14.1-alpine3.11
-  script: npm i && npm run build-doc
 
 test:
   stage: test
