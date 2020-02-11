@@ -1,8 +1,8 @@
 import {v4String} from 'uuid/interfaces';
-import {IUser, User} from './user.entity';
+import {IUser} from './user.entity';
 import {ApiModel, ApiModelProperty, SwaggerDefinitionConstant} from 'swagger-express-ts';
 import {Path} from 'typescript-rest';
-import {IProduct, Product} from './product.entity';
+import {IProduct} from './product.entity';
 import {IPurchase} from './purchase.entity';
 
 /**
