@@ -29,6 +29,7 @@ export interface IPurchase {
  * Creates a new Purchase
  *
  * @class
+ * @implements {IPurchase}
  */
 @ApiModel({
     description: 'Purchase Model',

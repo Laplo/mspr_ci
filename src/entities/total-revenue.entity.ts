@@ -15,6 +15,7 @@ export interface ITotalRevenue {
  * Creates a new TotalRevenue
  *
  * @class
+ * @implements {ITotalRevenue}
  */
 @ApiModel({
     description: 'Total Revenue Model',

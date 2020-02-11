@@ -8,6 +8,7 @@ import {IUser} from './user.entity';
  * Creates a new UserDTO
  *
  * @class
+ * @implements {IUser}
  */
 @ApiModel({
     description: 'User DTO Model',

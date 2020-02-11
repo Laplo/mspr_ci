@@ -28,6 +28,7 @@ export interface IUser {
  * Creates a new User
  *
  * @class
+ * @implements {IUser}
  */
 @ApiModel({
     description: 'User Model',

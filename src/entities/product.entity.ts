@@ -28,6 +28,7 @@ export interface IProduct {
  * Creates a new Product
  *
  * @class
+ * @implements {IProduct}
  */
 @ApiModel({
     description: 'Product Model',

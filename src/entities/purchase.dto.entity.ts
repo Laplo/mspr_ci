@@ -9,6 +9,7 @@ import {IPurchase} from './purchase.entity';
  * Creates a new PurchaseDTO
  *
  * @class
+ * @implements {IPurchase}
  */
 @ApiModel({
     description: 'Purchase DTO Model',
