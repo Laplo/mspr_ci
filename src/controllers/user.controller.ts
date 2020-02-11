@@ -3,7 +3,7 @@ import {
     ApiPath,
     SwaggerDefinitionConstant,
 } from 'swagger-express-ts';
-import {controller, httpGet, interfaces, queryParam} from 'inversify-express-utils';
+import {controller, httpGet, interfaces} from 'inversify-express-utils';
 import {v4String} from 'uuid/interfaces';
 import * as express from 'express';
 import {BAD_REQUEST, NOT_FOUND, OK} from 'http-status-codes';

@@ -1,10 +1,9 @@
-import app from '@server';
 import supertest from 'supertest';
-
 import { Response, SuperTest, Test } from 'supertest';
 import {pErr} from '@shared';
-import {NOT_FOUND, OK} from 'http-status-codes';
+import {NOT_FOUND} from 'http-status-codes';
 import v4 from 'uuid/v4';
+import app from '../src/app';
 const baseUrl = '/purchases/';
 
 describe('Purchases Routes', () => {

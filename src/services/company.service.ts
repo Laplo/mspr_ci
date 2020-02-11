@@ -1,6 +1,6 @@
 import {PurchaseDao} from '@daos';
 import {NameCallerArgsReturnLogServicesInfoLevel} from '@shared';
-import {ITotalRevenue, TotalRevenue} from '../entities/total-revenue.entity';
+import {TotalRevenue} from '../entities/total-revenue.entity';
 import {IPurchaseDao} from '../daos/Purchase/purchase.dao';
 
 let ICompanyService = 1;
