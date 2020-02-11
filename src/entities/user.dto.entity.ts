@@ -4,6 +4,13 @@ import {Path} from 'typescript-rest';
 import {IPurchase, Purchase} from './purchase.entity';
 import {IUser} from './user.entity';
 
+/**
+ * Creates a new UserDTO
+ * @classdesc Dto purchase
+ *
+ * @class
+ * @implements {IUser}
+ */
 @ApiModel({
     description: 'User DTO Model',
     name: 'UserDTO',

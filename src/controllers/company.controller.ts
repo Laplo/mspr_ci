@@ -7,6 +7,7 @@ import * as express from 'express';
 import {NOT_FOUND, OK} from 'http-status-codes';
 import {globalInfoLogger, NameCallerArgsReturnLogControllersInfoLevel} from '@shared';
 import {CompanyService, ICompanyService} from '../services/company.service';
+import {injectable} from 'inversify';
 
 interface ICompanyController {
     getTotalRevenue: (
@@ -23,11 +24,12 @@ interface ICompanyController {
 @controller(
     '/company',
 )
+@injectable()
 export class CompanyController implements interfaces.Controller, ICompanyController {
 
     private companyService: ICompanyService = new CompanyService();
 
-    public static TARGET_NAME = 'companyController';
+    public static TARGET_NAME = 'CompanyController';
 
     @NameCallerArgsReturnLogControllersInfoLevel('Company')
     @ApiOperationGet({

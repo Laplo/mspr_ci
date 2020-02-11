@@ -1,20 +1,17 @@
-image: docker:19.03.1
-
-services:
-  - docker:19.03.1-dind
-
 variables:
   # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: "/certs"
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
   GIT_DEPTH: "0"
-  KUBE_NAMESPACE: "mspr-ci${CI_BUILD_REF_NAME}"
+  KUBE_NAMESPACE: "msprci-${CI_BUILD_REF_NAME}"
 
 stages:
   - build
   - test
   - dockerbuild
+  - sonardev
+  - sonar
   - deploy
 
 cache:
@@ -33,6 +30,9 @@ test:
     - npm run testgit
 
 dockerbuild:
+  image: docker:19.03.1
+  services:
+    - docker:19.03.1-dind
   stage: dockerbuild
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -43,7 +43,50 @@ dockerbuild:
   only:
     - master
     - develop
-    - /release/
+    - /^release-.*/
+
+sonar-dev:
+  stage: sonardev
+  image: node:13.8.0-stretch
+  script:
+    - export SONAR_SCANNER_VERSION=4.0.0.1744
+    - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+    - rm -rf $SONAR_SCANNER_HOME
+    - mkdir -p $SONAR_SCANNER_HOME
+    - curl -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
+    - unzip $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+    - rm $HOME/.sonar/sonar-scanner.zip
+    - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+    - export SONAR_SCANNER_OPTS="-server"
+    - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT -Dsonar.branch.name=dev -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_LOGIN
+  only:
+    - /develop/
+
+sonar:
+  stage: sonar
+  image: node:13.8.0-stretch
+  script:
+    - export SONAR_SCANNER_VERSION=4.0.0.1744
+    - export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+    - rm -rf $SONAR_SCANNER_HOME
+    - mkdir -p $SONAR_SCANNER_HOME
+    - curl -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux.zip
+    - unzip $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+    - rm $HOME/.sonar/sonar-scanner.zip
+    - export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+    - export SONAR_SCANNER_OPTS="-server"
+    - sonar-scanner -Dsonar.projectKey=$SONAR_PROJECT -Dsonar.organization=$SONAR_ORGANIZATION -Dsonar.sources=. -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_LOGIN
+  only:
+    - /master/
+
+deployrel:
+  stage: deploy
+  image: hublo/kubectl:latest
+  script:
+    - echo -n $KUBE_CONFIG | base64 -d > ./config
+    - kubectl set image deployment/highlanderback $CONTAINER_NAME=$CI_REGISTRY_IMAGE:$CI_COMMIT_SHA --kubeconfig ./config --namespace msprci-release
+  only:
+    - /^release-.*/
 
 deploy:
   stage: deploy
@@ -54,4 +97,3 @@ deploy:
   only:
     - develop
     - master
-

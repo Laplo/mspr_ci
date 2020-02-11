@@ -9,6 +9,7 @@ import * as express from 'express';
 import {BAD_REQUEST, NOT_FOUND, OK} from 'http-status-codes';
 import {globalInfoLogger, NameCallerArgsReturnLogControllersInfoLevel} from '@shared';
 import {IPurchaseService, PurchaseService} from '../services/purchase.service';
+import {injectable} from 'inversify';
 
 interface IPurchaseController {
     getByUserId: (
@@ -25,11 +26,12 @@ interface IPurchaseController {
 @controller(
     '/purchases',
 )
+@injectable()
 export class PurchaseController implements interfaces.Controller, IPurchaseController {
 
     private purchaseService: IPurchaseService = new PurchaseService();
 
-    public static TARGET_NAME = 'purchaseController';
+    public static TARGET_NAME = 'PurchaseController';
 
     @NameCallerArgsReturnLogControllersInfoLevel('Purchase')
     @ApiOperationGet({
