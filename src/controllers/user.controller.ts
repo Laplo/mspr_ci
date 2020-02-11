@@ -9,6 +9,7 @@ import * as express from 'express';
 import {BAD_REQUEST, NOT_FOUND, OK} from 'http-status-codes';
 import {globalInfoLogger, NameCallerArgsReturnLogControllersInfoLevel} from '@shared';
 import {IUserService, UserService} from '../services/user.service';
+import { injectable } from 'inversify';
 
 interface IUserController {
     getAll: (
@@ -30,11 +31,12 @@ interface IUserController {
 @controller(
     '/users',
 )
+@injectable()
 export class UserController implements interfaces.Controller, IUserController {
 
     private userService: IUserService = new UserService();
 
-    public static TARGET_NAME = 'userController';
+    public static TARGET_NAME = 'UserController';
 
     @NameCallerArgsReturnLogControllersInfoLevel('User')
     @ApiOperationGet({
