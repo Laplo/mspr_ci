@@ -44,7 +44,8 @@
         "nonBlocking": "true",
         "regex": "(?:FIXME|TODO)"
       }
-    ]
+    ],
+    "pre-push": "git-branch-is feature/githook-doc-build && npm run doc-build"
   },
   "_moduleAliases": {
     "@daos": "dist/daos",
