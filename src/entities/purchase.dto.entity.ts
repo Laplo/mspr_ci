@@ -5,6 +5,11 @@ import {Path} from 'typescript-rest';
 import {IProduct, Product} from './product.entity';
 import {IPurchase} from './purchase.entity';
 
+/**
+ * Creates a new PurchaseDTO
+ *
+ * @class
+ */
 @ApiModel({
     description: 'Purchase DTO Model',
     name: 'PurchaseDTO',

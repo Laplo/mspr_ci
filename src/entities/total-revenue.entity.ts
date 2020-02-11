@@ -1,12 +1,21 @@
-import {v4String} from 'uuid/interfaces';
 import {ApiModel, ApiModelProperty} from 'swagger-express-ts';
 import {Path} from 'typescript-rest';
 
+/**
+ * Interface for classes that represent a total revenue
+ *
+ * @interface
+ */
 export interface ITotalRevenue {
     excludingTax: number;
     includingTax: number;
 }
 
+/**
+ * Creates a new TotalRevenue
+ *
+ * @class
+ */
 @ApiModel({
     description: 'Total Revenue Model',
     name: 'TotalRevenue',

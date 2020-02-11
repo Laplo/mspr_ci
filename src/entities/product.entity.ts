@@ -12,6 +12,11 @@ import {ApiModel, ApiModelProperty} from 'swagger-express-ts';
 import {Path} from 'typescript-rest';
 import {IPurchase, Purchase} from './purchase.entity';
 
+/**
+ * Interface for classes that represent a product
+ *
+ * @interface
+ */
 export interface IProduct {
     id: v4String;
     name: string;
@@ -19,6 +24,11 @@ export interface IProduct {
     purchases: IPurchase[];
 }
 
+/**
+ * Creates a new Product
+ *
+ * @class
+ */
 @ApiModel({
     description: 'Product Model',
     name: 'Product',
