@@ -13,7 +13,7 @@
     "test": "cross-env ENV_FILE=test ts-node -r ./env -r tsconfig-paths/register ./spec/start.ts",
     "testgit": "ts-node -r tsconfig-paths/register ./spec/start.ts",
     "sonar-scanner": "node_modules/sonar-scanner/bin/sonar-scanner",
-    "version": "auto-changelog -p && git add CHANGELOG.md && git commit -m \"CHANGELOG\" && git push"
+    "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "commitlint": {
     "extends": [
