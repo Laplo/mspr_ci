@@ -21,20 +21,17 @@
     ]
   },
   "auto-changelog": {
-    "output": "CHANGELOG.md",
-    "template": "keepachangelog",
     "unreleased": true,
     "commitLimit": false,
     "includeBranch": [
-      "release-1.0.0",
-      "release-2.0.0",
-      "release-3.0.0"
+      "master",
+      "develop",
+      "/^release-.*/"
     ]
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "precise-commit",
+      "pre-commit": "npm run lint && npm run version",
       "pre-push": "git-branch-is -r '^((?!develop).)*$' || (git-branch-is develop && npm run build-doc)"
     }
   },
