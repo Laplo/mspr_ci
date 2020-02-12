@@ -32,7 +32,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint && npm run version",
-      "pre-push": "git-branch-is -r '^((?!master).)*$' || (git-branch-is master && npm run build-doc)"
+      "pre-push": "git-branch-is -r '^((?!develop).)*$' || (git-branch-is develop && npm run build-doc)"
     }
   },
   "hooks": {
