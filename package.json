@@ -21,8 +21,6 @@
     ]
   },
   "auto-changelog": {
-    "output": "CHANGELOG.md",
-    "template": "keepachangelog",
     "unreleased": true,
     "commitLimit": false,
     "includeBranch": [
@@ -33,8 +31,7 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "precise-commit",
+      "pre-commit": "npm run lint && npm run version",
       "pre-push": "git-branch-is -r '^((?!master).)*$' || (git-branch-is master && npm run build-doc)"
     }
   },
