@@ -1,7 +1,7 @@
 import {v4String} from 'uuid/interfaces';
 import {ApiModel, ApiModelProperty, SwaggerDefinitionConstant} from 'swagger-express-ts';
 import {Path} from 'typescript-rest';
-import {IPurchase, Purchase} from './purchase.entity';
+import {IPurchase} from './purchase.entity';
 import {IUser} from './user.entity';
 
 /**

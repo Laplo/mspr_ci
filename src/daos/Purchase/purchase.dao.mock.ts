@@ -2,7 +2,7 @@ import { MockDaoMock } from '../MockDb/MockDao.mock';
 import {v4String} from 'uuid/interfaces';
 import {IPurchase} from '@entities';
 import {IPurchaseDao} from './purchase.dao';
-import {NameCallerArgsReturnLogDaosInfoLevel} from '@shared';
+import {globalInfoLogger, NameCallerArgsReturnLogDaosInfoLevel} from '@shared';
 
 export class PurchaseDao extends MockDaoMock implements IPurchaseDao {
 
@@ -12,6 +12,7 @@ export class PurchaseDao extends MockDaoMock implements IPurchaseDao {
             const db = await super.openDb();
             return db.users;
         } catch (err) {
+            globalInfoLogger.error(err);
             throw err;
         }
     }
@@ -22,6 +23,7 @@ export class PurchaseDao extends MockDaoMock implements IPurchaseDao {
             const db = await super.openDb();
             return db.users;
         } catch (err) {
+            globalInfoLogger.error(err);
             throw err;
         }
     }

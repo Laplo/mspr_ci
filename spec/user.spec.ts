@@ -1,4 +1,4 @@
-import app from '@server';
+import app from '../src/app';
 import supertest from 'supertest';
 
 import { Response, SuperTest, Test } from 'supertest';

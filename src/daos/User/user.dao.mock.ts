@@ -1,7 +1,7 @@
 import { MockDaoMock } from '../MockDb/MockDao.mock';
 import { IUserDao } from './user.dao';
 import {IUser} from '@entities';
-import {NameCallerArgsReturnLogDaosInfoLevel} from '@shared';
+import {globalInfoLogger, NameCallerArgsReturnLogDaosInfoLevel} from '@shared';
 import {v4String} from 'uuid/interfaces';
 
 export class UserDao extends MockDaoMock implements IUserDao {
@@ -12,6 +12,7 @@ export class UserDao extends MockDaoMock implements IUserDao {
             const db = await super.openDb();
             return db.users;
         } catch (err) {
+            globalInfoLogger.error(err);
             throw err;
         }
     }
@@ -23,6 +24,7 @@ export class UserDao extends MockDaoMock implements IUserDao {
             const db = await super.openDb();
             return db.users;
         } catch (err) {
+            globalInfoLogger.error(err);
             throw err;
         }
     }

@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "node ./util/build.js",
-    "build-doc": "jsdoc2md --files ./src/*.ts ./src/**/*.ts --configure ./jsdoc2md.json > ./docs/doc.md",
+    "build-doc": "jsdoc2md --files ./src/*.ts ./src/**/*.ts --configure ./jsdoc2md.json > docs/README.md",
     "lint": "tslint --project \"tsconfig.json\"",
     "start": "npm run build && node -r module-alias/register ./dist/start.js",
     "start-dev": "nodemon --config \"./util/nodemon.json\"",
