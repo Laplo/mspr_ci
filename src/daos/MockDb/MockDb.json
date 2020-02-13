@@ -1,4 +1,3 @@
 {
-  "posts":[],
-  "reactions":[]
+  "purchase": ["userID", "user", "productId", "product" ]
 }
