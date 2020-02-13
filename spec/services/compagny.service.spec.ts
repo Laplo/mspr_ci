@@ -1,16 +1,13 @@
-import supertest, {SuperTest, Test} from "supertest";
-import app from "../../src/app";
+import {calculateTax} from "../../src/shared/CalculateTax";
 
-describe('company total revenue', () =>{
-    let user: SuperTest<Test>;
-
-    beforeAll(( done )=> {
-        user = supertest(app);
-        done();
+describe('company total revenue', () => {
+   it('should return the correct object of ITotalRevenue with correct parameter', () => {
+       const objectTax = calculateTax(100);
+        expect(objectTax.includingTax).toEqual(120);
+        expect(objectTax.excludingTax).toEqual(100);
     });
 
-    test('100 + 10 = 110', () =>{
-        expect(purchase(100, 10)).toBe(110);
-    });
+   it('should throw an Error because of bad parameter', () => {
+       expect(() => calculateTax(-1)).toThrow();
+   });
 });
-const {userId, user, productId, product} = require('/src/daos/MockDb/MockDao.mock');
