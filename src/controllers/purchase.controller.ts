@@ -37,7 +37,7 @@ export class PurchaseController implements interfaces.Controller, IPurchaseContr
     @ApiOperationGet({
         description: 'Get purchases by user id',
         summary: 'Get purchases of an existing user',
-        path: '/{id}',
+        path: '/user/{id}',
         responses: {
             200: {
                 description: 'Success',
