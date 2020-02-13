@@ -13,7 +13,7 @@ const server = new InversifyExpressServer(container);
 server.setConfig((appConfig: any) => {
     appConfig.use( bodyParser.json() );
 
-    const allowedOrigins = ['http://localhost:3000'];
+    const allowedOrigins = ['http://localhost:3000', process.env.FRONT_URL || ''];
     appConfig.use(cors({
         origin: allowedOrigins,
         credentials: true,

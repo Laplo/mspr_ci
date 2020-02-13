@@ -98,7 +98,7 @@ export class UserController implements interfaces.Controller, IUserController {
                     error: 'User not found',
                 });
             }
-            return response.status(OK).json({user});
+            return response.status(OK).json(user);
         } catch (err) {
             globalInfoLogger.error(err.message, err);
             return response.status(NOT_FOUND).json({
