@@ -2,6 +2,7 @@ import {PurchaseDao} from '@daos';
 import {NameCallerArgsReturnLogServicesInfoLevel} from '@shared';
 import {TotalRevenue} from '../entities/total-revenue.entity';
 import {IPurchaseDao} from '../daos/Purchase/purchase.dao';
+import {calculateTax} from '../shared/CalculateTax';
 
 let ICompanyService = 1;
 /**
@@ -44,9 +45,6 @@ export class CompanyService implements ICompanyService {
         purchases.forEach((purchase) => {
             excludingTax += purchase.product.price;
         });
-        return new TotalRevenue(
-            excludingTax,
-            excludingTax + ((20 * excludingTax) / 100),
-        );
+        return calculateTax(excludingTax);
     }
 }

@@ -31,7 +31,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run version",
+      "pre-commit": "npm run version",
       "pre-push": "git-branch-is -r '^((?!develop).)*$' || (git-branch-is develop && npm run build-doc)"
     }
   },
