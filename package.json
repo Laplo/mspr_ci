@@ -35,7 +35,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npm run version",
-      "pre-push": "git-branch-is -r '^((?!develop).)*$' || (git-branch-is develop && npm run build-doc && npm run test)"
+      "pre-push": "git-branch-is -r '^((?!develop).)*$' || (git-branch-is develop && npm run test)"
     }
   },
   "hooks": {
