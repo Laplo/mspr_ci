@@ -11,7 +11,7 @@
     "start": "npm run build && node -r module-alias/register ./dist/start.js",
     "start-dev": "nodemon --config \"./util/nodemon.json\"",
     "test": "cross-env ENV_FILE=test ts-node -r ./env -r tsconfig-paths/register ./spec/start.ts",
-    "coverage": "nyc npm testgit && nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc npm run testgit && nyc report --reporter=text-lcov | coveralls",
     "coveragetest": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "coveralls": "cat coverage/lcov.info | node node_modules/coveralls/bin/coveralls.js",
     "testgit": "ts-node -r tsconfig-paths/register ./spec/start.ts",
