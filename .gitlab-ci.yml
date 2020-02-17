@@ -28,6 +28,7 @@ test:
   image: node:12.14.1-alpine3.11
   script:
     - npm run coverage
+    - cat coverage/lcov.info
   after_script:
     - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls
 
