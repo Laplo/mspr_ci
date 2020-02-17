@@ -5,3 +5,4 @@ tslint.json
 /dist
 /.scannerwork
 /coverage
+/.nyc_output
