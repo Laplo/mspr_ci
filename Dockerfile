@@ -4,7 +4,9 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm install
+# install and cache app dependencies
+COPY . .
+RUN npm install --prod
 
 COPY . .
 
