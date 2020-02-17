@@ -1,6 +1,6 @@
 {
   "name": "highlander",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Micro service to handle highlander",
   "repository": "https://erzo.wtf",
   "license": "MIT",
@@ -11,9 +11,12 @@
     "start": "npm run build && node -r module-alias/register ./dist/start.js",
     "start-dev": "nodemon --config \"./util/nodemon.json\"",
     "test": "cross-env ENV_FILE=test ts-node -r ./env -r tsconfig-paths/register ./spec/start.ts",
+    "coverage": "nyc npm run testgit && nyc report --reporter=text-lcov | coveralls",
+    "coveragetest": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "coveralls": "cat coverage/lcov.info | node node_modules/coveralls/bin/coveralls.js",
     "testgit": "ts-node -r tsconfig-paths/register ./spec/start.ts",
     "sonar-scanner": "node_modules/sonar-scanner/bin/sonar-scanner",
-    "version": "auto-changelog -p && git add CHANGELOG.md"
+    "version": "npm run lint && auto-changelog -p && git add CHANGELOG.md"
   },
   "commitlint": {
     "extends": [
@@ -31,8 +34,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run version",
-      "pre-push": "git-branch-is -r '^((?!develop).)*$' || (git-branch-is develop && npm run build-doc)"
+      "pre-commit": "npm run version",
+      "pre-push": "git-branch-is -r '^((?!develop).)*$' || (git-branch-is develop && npm run test)"
     }
   },
   "hooks": {
@@ -93,6 +96,7 @@
     "log4js": "6.1.2",
     "module-alias": "2.2.2",
     "morgan": "1.9.1",
+    "nyc": "15.0.0",
     "pg": "7.18.1",
     "reflect-metadata": "0.1.13",
     "request": "2.88.0",
@@ -116,21 +120,25 @@
     "@types/express": "4.17.1",
     "@types/find": "0.2.1",
     "@types/jasmine": "3.5.0",
+    "@types/jest": "^25.1.2",
     "@types/jsonfile": "5.0.0",
     "@types/morgan": "1.7.37",
     "@types/node": "13.1.8",
     "@types/supertest": "2.0.8",
     "@types/swagger-ui-express": "4.1.1",
     "auto-changelog": "1.16.2",
+    "coveralls": "3.0.9",
     "find": "0.3.0",
     "fs-extra": "8.1.0",
     "husky": "4.0.10",
     "jasmine": "3.5.0",
+    "jest": "24.9.0",
     "jsdoc-babel": "0.5.0",
     "jsdoc-to-markdown": "5.0.3",
     "jsonfile": "5.0.0",
     "nodemon": "2.0.2",
     "supertest": "4.0.2",
+    "ts-jest": "^25.2.0",
     "ts-node": "8.4.1",
     "tsconfig-paths": "3.9.0",
     "tslint": "5.20.0",

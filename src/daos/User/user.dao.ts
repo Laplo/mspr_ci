@@ -1,4 +1,4 @@
-import {NameCallerArgsReturnLogDaosInfoLevel, SequelizeConnection} from '@shared';
+import {globalInfoLogger, NameCallerArgsReturnLogDaosInfoLevel, SequelizeConnection} from '@shared';
 import {IUser, User} from '@entities';
 import {v4String} from 'uuid/interfaces';
 
@@ -17,6 +17,15 @@ export class UserDao implements IUserDao {
 
     @NameCallerArgsReturnLogDaosInfoLevel('User')
     public async getById(id: v4String): Promise<IUser | null> {
-        return this.userRepository.findByPk(id.toString());
+        try {
+            return this.userRepository.findOne({
+                where: {
+                    id: id.toString(),
+                },
+            });
+        } catch (e) {
+            globalInfoLogger.error(e);
+            return null;
+        }
     }
 }
