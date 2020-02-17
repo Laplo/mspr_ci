@@ -17,7 +17,6 @@ export class UserDao extends MockDaoMock implements IUserDao {
         }
     }
 
-
     @NameCallerArgsReturnLogDaosInfoLevel('User')
     public async getById(id: v4String): Promise<IUser | null> {
         try {
