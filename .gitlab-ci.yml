@@ -1,5 +1,4 @@
 variables:
-  # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: "/certs"
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
