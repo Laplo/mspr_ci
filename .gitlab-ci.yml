@@ -27,7 +27,7 @@ test:
   stage: test
   image: node:12.14.1-alpine3.11
   script:
-    - npm run testgit
+    - npm run coverage
 
 dockerbuild:
   image: docker:19.03.1
